@@ -2,7 +2,7 @@ from datetime import datetime
 from time import time
 import jwt
 from app import db, login
-from flask import session, current_app
+from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
         codes: A relationship linking the user to the codes they submit.
     """
     __tablename__ = 'user'
-    id  = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(120), unique=True)
     password_hash = db.Column(db.String(128))
@@ -89,26 +89,8 @@ class Award(db.Model):
     abstract = db.Column(db.Text)
     codes = db.relationship('Code', back_populates='award')
 
-
     def __repr__(self):
         return 'Award id:{0}'.format(self.id)
-
-    def available_for_coding(self, user):
-        """Indicate if an award can be coded by a given user.
-
-        Awards must be coded twice by separate users.
-        It also makes sure that the award has not been skipped.
-
-        Args:
-            user (Object): Account representing the user.
-
-        Returns:
-            (boolean): True if award is available, false if not.
-        """
-        if len(self.codes) >= 4:
-            return False
-        elif user.id in [code.user_id for code in self.codes]:
-            return False
 
 
 class Code(db.Model):
@@ -122,9 +104,7 @@ class Code(db.Model):
     award_id = db.Column(db.Integer, db.ForeignKey('award.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     pervasive_data = db.Column(db.Boolean)
-    data_science = db.Column(db.Boolean)
-    big_data = db.Column(db.Boolean)
-    data_synonyms = db.Column(db.Text)
+    review = db.Column(db.Boolean)
     comments = db.Column(db.Text)
     award = db.relationship('Award', back_populates='codes')
     user = db.relationship('User', back_populates='codes')
