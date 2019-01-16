@@ -10,7 +10,7 @@ from app.models import Award
 
 
 
-FILENAME = '/home/eddie/Projects/infost_785/pervade-coding/CISE_filtered_no_dupes.csv'
+FILENAME = '/home/eddie/Projects/PERVADE/pervade-dmp/pervade_dmp_awards.csv'
 FIELDNAMES = (
     'pi_name',
     'contact',

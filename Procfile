@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn pervade-coding:app
+web: flask db upgrade; gunicorn pervade-dmp:app
